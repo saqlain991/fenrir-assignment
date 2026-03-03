@@ -17,7 +17,8 @@ import {
   X,
   FlaskConical,
   Info,
-  Timer
+  Timer,
+  GitBranch
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -25,10 +26,10 @@ import { mockScans, mockLogs, mockFindings } from "@/data/mockData";
 
 const STEPS = [
   { id: "spidering", label: "Spidering", icon: Search },
-  { id: "mapping", label: "Mapping", icon: FileText },
+  { id: "mapping", label: "Mapping", icon: GitBranch },
   { id: "testing", label: "Testing", icon: FlaskConical },
   { id: "validating", label: "Validating", icon: ShieldCheck },
-  { id: "reporting", label: "Reporting", icon: CheckCircle2 },
+  { id: "reporting", label: "Reporting", icon: FileText },
 ];
 
 function StatItem({ label, value, accent }: { label: string; value: string | undefined; accent?: boolean }) {
@@ -106,7 +107,7 @@ export default function ScanDetailPage() {
             <div className="relative w-40 h-40 shrink-0 flex items-center justify-center">
 
               <div className="absolute inset-0 flex flex-col items-center justify-center bg-gray-900 rounded-full dark:bg-gray-900 ">
-                <span className="text-3xl font-bold text-primary dark:text-primary">36%</span>
+                <span className="text-3xl font-bold text-[#22CDAF] dark:text-[#22CDAF]">36%</span>
                 <span className="text-xs text-muted-foreground mt-1">
                   In Progress
                 </span>
@@ -122,37 +123,42 @@ export default function ScanDetailPage() {
               {/* Connected Steps */}
               <div className="relative">
                 {/* Background Line */}
-                <div className="absolute top-6 left-0 right-0 h-[2px] bg-muted/40" />
+                <div className="absolute top-6 left-6 right-6 h-[2px] bg-muted/40" />
                 {/* Active Progress Line */}
                 <div
-                  className="absolute top-6 left-0 h-[2px] bg-primary transition-all duration-700"
-                  style={{ width: "25%" }}
+                  className="absolute top-6 left-6 h-[2px] bg-primary transition-all duration-700"
+                  style={{ width: "0%" }}
                 />
                 <div className="relative flex justify-between">
                   {STEPS.map((step, index) => {
                     const Icon = step.icon;
-                    const activeIndex = 1; // example active
+                    const activeIndex = 0; // Spidering active
                     const isCompleted = index < activeIndex;
                     const isActive = index === activeIndex;
 
                     return (
                       <div
                         key={step.id}
-                        className="flex flex-col items-center text-center w-full"
+                        className="flex flex-col items-center text-center w-full relative z-10"
                       >
-                        <div
-                          className={`
-                    w-12 h-12 rounded-full flex items-center justify-center
+                        <div className="relative">
+                          {isActive && (
+                            <div className="absolute inset-0 rounded-full bg-primary/40 animate-ping shadow-[0_0_15px_rgba(12,200,168,0.5)]" />
+                          )}
+                          <div
+                            className={`
+                    relative z-10 w-12 h-12 rounded-full flex items-center justify-center
                     border-2 transition-all duration-300
                     ${isCompleted
-                              ? "bg-primary text-primary-foreground border-primary"
-                              : isActive
-                                ? "bg-primary/10 text-primary border-primary"
-                                : "bg-background border-muted text-muted-foreground"
-                            }
+                                ? "bg-primary text-primary-foreground border-primary"
+                                : isActive
+                                  ? "bg-primary/80 text-primary border-primary"
+                                  : "bg-background border-muted text-muted-foreground"
+                              }
                   `}
-                        >
-                          <Icon className="w-5 h-5" />
+                          >
+                            <Icon className={isActive ? "w-5 h-5 text-white" : "w-5 h-5"} />
+                          </div>
                         </div>
                         <span
                           className={`

@@ -1,15 +1,16 @@
 "use client"
 
 import * as React from "react"
-
 import { cn } from "@/lib/utils"
 
+// Context to manage active step
 const StepperContext = React.createContext<{
   activeStep: number
   setActiveStep?: (step: number) => void
 }>({ activeStep: 0 })
 
-interface StepperProps extends React.HTMLAttributes<HTMLDivElement> {
+// Fix: Omit 'onChange' to avoid conflict with HTMLAttributes
+interface StepperProps extends Omit<React.HTMLAttributes<HTMLDivElement>, "onChange"> {
   value?: number
   onChange?: (value: number) => void
 }
@@ -35,9 +36,7 @@ function Stepper({
   }
 
   return (
-    <StepperContext.Provider
-      value={{ activeStep, setActiveStep: handleStepChange }}
-    >
+    <StepperContext.Provider value={{ activeStep, setActiveStep: handleStepChange }}>
       <div className={cn("flex w-full items-center", className)} {...props}>
         {children}
       </div>
@@ -80,19 +79,11 @@ function StepperItem({
   )
 }
 
-function StepperHeader({
-  className,
-  ...props
-}: React.HTMLAttributes<HTMLDivElement>) {
-  return (
-    <div className={cn("flex w-full items-center", className)} {...props} />
-  )
+function StepperHeader({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
+  return <div className={cn("flex w-full items-center", className)} {...props} />
 }
 
-function StepperSeparator({
-  className,
-  ...props
-}: React.HTMLAttributes<HTMLDivElement>) {
+function StepperSeparator({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
   return (
     <div
       className={cn("mx-2 h-0.5 flex-1 transition-colors", className)}
@@ -101,11 +92,7 @@ function StepperSeparator({
   )
 }
 
-function StepperIcon({
-  className,
-  children,
-  ...props
-}: React.HTMLAttributes<HTMLDivElement>) {
+function StepperIcon({ className, children, ...props }: React.HTMLAttributes<HTMLDivElement>) {
   return (
     <div
       className={cn(
@@ -119,10 +106,7 @@ function StepperIcon({
   )
 }
 
-function StepperBody({
-  className,
-  ...props
-}: React.HTMLAttributes<HTMLDivElement>) {
+function StepperBody({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
   return <div className={cn("flex-1 text-center", className)} {...props} />
 }
 

@@ -105,7 +105,7 @@ export function Sidebar() {
       <div className="lg:hidden flex items-center justify-between p-4 border-b border-border bg-surface sticky top-0 z-40">
         <div className="flex items-center gap-3 cursor-pointer">
           <Image src="/logo.png" alt="Logo" width={26} height={26} />
-          <span className="text-2xl font-bold tracking-tight cursor-pointer">aps</span>
+          <span className="text-2xl font-bold tracking-tight cursor-pointer text-primary">aps</span>
         </div>
 
         <div className="flex items-center gap-2">
@@ -140,7 +140,7 @@ export function Sidebar() {
         <div className="p-6 hidden lg:flex items-center justify-between">
           <div className="flex items-center gap-3">
             <Image src="/logo.png" alt="Logo" width={26} height={26} />
-            <span className="text-xl font-bold tracking-tight text-foreground cursor-pointer">
+            <span className="text-xl font-bold tracking-tight text-primary cursor-pointer">
               aps
             </span>
           </div>
