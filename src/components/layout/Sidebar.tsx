@@ -14,9 +14,9 @@ import {
   Calendar,
   ClipboardCheck,
   FileChartColumnIncreasing,
-  CircleQuestionMark
+  CircleQuestionMark,
 } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 
@@ -37,8 +37,16 @@ export function Sidebar() {
   const pathname = usePathname();
   const { theme, setTheme } = useTheme();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
-  const toggleTheme = () => setTheme((theme ?? 'light') === 'dark' ? 'light' : 'dark');
+  // ✅ Prevent hydration mismatch
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const toggleTheme = () => {
+    setTheme(theme === "dark" ? "light" : "dark");
+  };
 
   const NavLinks = ({
     items,
@@ -79,60 +87,102 @@ export function Sidebar() {
     </nav>
   );
 
+  const ThemeIcon = ({ size = 5 }: { size?: number }) => {
+    if (!mounted) {
+      return <div className={`w-${size} h-${size}`} />;
+    }
+
+    return theme === "dark" ? (
+      <Sun className={`w-${size} h-${size}`} />
+    ) : (
+      <Moon className={`w-${size} h-${size}`} />
+    );
+  };
+
   return (
     <>
       {/* Mobile Header */}
       <div className="lg:hidden flex items-center justify-between p-4 border-b border-border bg-surface sticky top-0 z-40">
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 cursor-pointer">
           <Image src="/logo.png" alt="Logo" width={26} height={26} />
-          <span className="text-2xl font-bold tracking-tight">aps</span>
+          <span className="text-2xl font-bold tracking-tight cursor-pointer">aps</span>
         </div>
+
         <div className="flex items-center gap-2">
           <Button variant="ghost" size="icon" onClick={toggleTheme}>
-            {(theme ?? 'light') === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+            <ThemeIcon size={5} />
           </Button>
 
-          <Button variant="ghost" size="icon" onClick={() => setMobileOpen(!mobileOpen)}>
-            {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => setMobileOpen(!mobileOpen)}
+          >
+            {mobileOpen ? (
+              <X className="w-5 h-5" />
+            ) : (
+              <Menu className="w-5 h-5" />
+            )}
           </Button>
         </div>
       </div>
 
-      {/* Desktop Sidebar & Mobile Drawer */}
-      <div className={`
-        fixed inset-y-0 left-0 z-50 w-64 bg-surface border-r border-border transition-transform duration-300 ease-in-out flex flex-col
-        lg:translate-x-0 lg:static
-        ${mobileOpen ? "translate-x-0" : "-translate-x-full"}
-      `}>
-        {/* Logo */}
+      {/* Sidebar */}
+      <div
+        className={`
+          fixed inset-y-0 left-0 z-50 w-64 bg-surface border-r border-border 
+          transition-transform duration-300 ease-in-out flex flex-col
+          lg:translate-x-0 lg:static
+          ${mobileOpen ? "translate-x-0" : "-translate-x-full"}
+        `}
+      >
+        {/* Logo (Desktop) */}
         <div className="p-6 hidden lg:flex items-center justify-between">
           <div className="flex items-center gap-3">
             <Image src="/logo.png" alt="Logo" width={26} height={26} />
-            <span className="text-xl font-bold tracking-tight text-foreground">aps</span>
+            <span className="text-xl font-bold tracking-tight text-foreground cursor-pointer">
+              aps
+            </span>
           </div>
-          <Button variant="ghost" size="icon" onClick={toggleTheme} className="text-muted-foreground hover:text-foreground">
-            {(theme ?? 'light') === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={toggleTheme}
+            className="text-muted-foreground hover:text-foreground cursor-pointer"
+          >
+            <ThemeIcon size={4} />
           </Button>
         </div>
 
-        {/* Primary Nav */}
+        {/* Navigation */}
         <div className="px-3 flex-1 overflow-y-auto py-4 lg:py-0">
-          <NavLinks items={NAV_ITEMS} activityItems={['Scans']} />
+          <NavLinks items={NAV_ITEMS} activityItems={["Scans"]} />
 
           <div className="my-8 border-t border-border mx-4" />
 
-          <NavLinks items={BOTTOM_NAV_ITEMS} activityItems={['Notifications']} />
+          <NavLinks
+            items={BOTTOM_NAV_ITEMS}
+            activityItems={["Notifications"]}
+          />
         </div>
 
-        {/* User Profile Footer */}
+        {/* User Footer */}
         <div className="p-4 border-t border-border m-3 rounded-2xl bg-muted/30">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-full bg-yellow-400 shrink-0 overflow-hidden">
-              <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix&backgroundColor=facc15" alt="User" />
+              <img
+                src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix&backgroundColor=facc15"
+                alt="User"
+              />
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium text-foreground truncate">admin@edu.com</p>
-              <p className="text-xs text-muted-foreground truncate">Security Lead</p>
+              <p className="text-sm font-medium text-foreground truncate">
+                admin@edu.com
+              </p>
+              <p className="text-xs text-muted-foreground truncate">
+                Security Lead
+              </p>
             </div>
           </div>
         </div>
