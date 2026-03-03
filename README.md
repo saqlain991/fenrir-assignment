@@ -1,36 +1,63 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Aps Dashboard
 
-## Getting Started
+A modern, production-ready dashboard frontend interface designed for scanning, analyzing, and reviewing application security vulnerabilities. Built using Next.js 16 (App Router), React, and Tailwind CSS. The design language emphasizes high-fidelity layout replication and cross-device responsiveness.
 
-First, run the development server:
+## Architecture & Tech Stack
+
+The platform demonstrates best-practice frontend architecture with a clear separation of UI components, centralized state management for themes, and simulated local data handling.
+
+- **Framework**: [Next.js v16](https://nextjs.org/) using the App Directory.
+- **Language**: TypeScript (Strict mode enabled).
+- **Styling**: Tailwind CSS with native CSS custom variables mapped to design tokens.
+- **Component System**: Shadcn UI-inspired modular core with Radix UI primitives and Lucide React icons.
+- **Data Emulation**: Dedicated mock logic utilizing `date-fns` and JSON object definitions (`mockData.ts`) to validate functional data flow without backend dependencies.
+
+## Key Features
+
+- **High-Fidelity UI Match**: Specific utilization of exact variables, padding systems, and color definitions mappings (`#0CC8A8` teal primary variant).
+- **Theming Capabilities**: Dark and Light theme toggle functionality leveraging `useTheme` capabilities alongside CSS variables for strict contrast standards.
+- **Functional Dashboards**: Full interaction layers demonstrating functional states for search filters, data refreshing, structured pagination components, and scanning processes (spidering, mapping, and reporting).
+- **Responsive Strategies**: Built mobile-first. Accommodates standard viewport sizes ranging automatically down to tablet sizes using column degradation and hamburger drawer navigation systems.
+
+## Local Development & Setup
+
+Follow these instructions to spin up the local project layer. 
+
+### Prerequisites
+
+Node.js v18.17 or higher is required.
+
+### Installation
+
+1. Clone the repository to your local system.
+   
+```bash
+git clone https://github.com/saqlain991/fenrir-assignment
+```
+
+2. Navigate into the application root and install packages.
+```bash
+npm install 
+```
+
+3. Initialize the development environment.
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+4. View the project build running locally. Navigate your web browser to:
+**[http://localhost:3000](http://localhost:3000)**
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Structure Overview
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `/src/app/`: The central application routes and layouts (covering `/login`, `/dashboard`, and `/scans/[id]`). 
+- `/src/components/ui/`: Base and reusable user interface components (Badges, Buttons, Inputs, Radix wrappers).
+- `/src/components/layout/`: Global architecture wrappers (Sidebars, Top Navigation, Theme Providers).
+- `/src/data/mockData.ts`: Holds data array schemas and records bridging testing states inside the Next.js hooks.
 
-## Learn More
+## Considerations & Limitations
 
-To learn more about Next.js, take a look at the following resources:
+- **State Emulation**: Actions such as "Stop Scan" or dynamic loading intervals are locally simulated via `setTimeout` logic and hooks. State persistence drops on hard refresh as data originates from stateless constants.
+- **Accessibility Integration**: Interactive components utilize `aria-labels` and semantic DOM placement structurally, but deeper ARIA relationships logic is only partially mapped to Radix UI components specifically.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
