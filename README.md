@@ -2,6 +2,19 @@
 
 A modern, production-ready dashboard frontend interface designed for scanning, analyzing, and reviewing application security vulnerabilities. Built using Next.js 16 (App Router), React, and Tailwind CSS. The design language emphasizes high-fidelity layout replication and cross-device responsiveness.
 
+## Visual Previews
+
+> *These represent the configured Login, Dashboard and Scan Pages UI Design.*
+
+![Dashboard Analytics View](./public/login.png) 
+*Login Page UI*
+
+![Dashboard Analytics View](./public/dashboard.png) 
+*Dashboard Page UI*
+ 
+![Scan Steps Console Interface](./public/scanpage.png)
+*Scan Page UI*
+
 ## Architecture & Tech Stack
 
 The platform demonstrates best-practice frontend architecture with a clear separation of UI components, centralized state management for themes, and simulated local data handling.
